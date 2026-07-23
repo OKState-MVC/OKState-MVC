@@ -1,0 +1,236 @@
+/* =====================================================================
+   SHOES & EQUIPMENT — sub-page styles
+   Loaded AFTER styles.css + lesson.css. Uses <body class="lesson shoes">,
+   so it inherits the whole soothing-grey theme (ambient shapes, back-pill,
+   blank→fade title graphic, translucent cards, footer, .reveal system).
+   This file only:
+     1. deepens the grey backdrop a touch (client wanted a slightly darker,
+        still-soft grey so the orange/sky accents pop more) — THIS PAGE ONLY,
+     2. draws the two bespoke title graphics (a screen-spanning shoe
+        silhouette + an outline first-aid cross),
+     3. lays out the paired-circle "duo" units (title/text circle overlapping
+        a product-photo circle) in their 3/3/1 and 3x2 grids,
+     4. sizes the near-full-screen Slunks logo.
+   ===================================================================== */
+
+/* ---------- Slightly darker, still-soothing grey backdrop (this page only) ----------
+   lesson.css sets body.lesson::before to a mid grey; we deepen it here so the
+   accent colors read stronger. Scoped to body.shoes → H/S/R and Reffing untouched. */
+body.shoes::before {
+  background:
+    radial-gradient(120% 90% at 12% 8%,  rgba(255,138,61,0.12), transparent 46%),
+    radial-gradient(120% 95% at 88% 92%, rgba(95,195,232,0.15), transparent 48%),
+    linear-gradient(165deg, #34363d 0%, #292a30 52%, #303138 100%);
+}
+body.shoes::after {
+  background: radial-gradient(150% 110% at 50% 24%, transparent 56%, rgba(8,8,11,0.44) 100%);
+}
+
+/* intro copy sits close under the title, like the reffing page */
+body.shoes .lesson-hero { min-height: 54svh; padding: 15vh 24px 2vh; }
+.shoes-intro { padding-top: clamp(16px, 3vh, 34px); }
+
+/* generous rhythm between the three big groupings */
+.gear-section { max-width: 1120px; margin-top: clamp(60px, 11vh, 130px); }
+
+/* =====================================================================
+   1. "SHOES" TITLE CARD
+   A standalone glass title card (same language as the page hero graphic),
+   sitting on its own above the shoe grid.
+   ===================================================================== */
+.gear-title {
+  width: max-content;
+  max-width: 90%;
+  margin: 0 auto clamp(36px, 6vh, 68px);
+  padding: clamp(20px, 3vw, 34px) clamp(40px, 8vw, 96px);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.045));
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 30px 90px -44px rgba(0,0,0,0.8);
+  backdrop-filter: blur(16px) saturate(125%);
+  -webkit-backdrop-filter: blur(16px) saturate(125%);
+  text-align: center;
+}
+.gear-title__label {
+  font-size: clamp(2rem, 6vw, 4.2rem);
+  font-weight: 800; letter-spacing: 0.05em;
+  line-height: 1;
+  background: linear-gradient(100deg, var(--orange-hi), var(--orange) 55%, var(--orange-deep));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-shadow: 0 6px 40px rgba(0,0,0,0.35);
+}
+
+/* =====================================================================
+   2. FIRST-AID CROSS TITLE GRAPHIC
+   A translucent, light-grey, outline-only medical cross with the title +
+   intro paragraph sitting within its horizontal arm.
+   ===================================================================== */
+.aid-banner {
+  position: relative;
+  width: 100%;
+  max-width: clamp(320px, 64vw, 640px);
+  margin: 0 auto clamp(40px, 7vh, 72px);
+  aspect-ratio: 1 / 1;              /* symmetric first-aid cross: vertical arm == horizontal arm */
+  display: grid;
+  place-items: center;
+}
+.aid-banner__art {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  fill: none;
+  stroke: rgba(255,255,255,0.22);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 22px 44px rgba(0,0,0,0.45));
+  vector-effect: non-scaling-stroke;
+}
+.aid-banner__text {
+  position: relative;
+  z-index: 1;
+  /* sits inside the cross's horizontal arm (the middle band, ~29% of the square's height) */
+  width: min(84%, 500px);
+  text-align: center;
+  padding: 0 clamp(10px, 2.4vw, 22px);
+}
+.aid-banner__title {
+  font-size: clamp(1.25rem, 3.2vw, 2.1rem);
+  font-weight: 800; letter-spacing: 0.02em;
+  margin-bottom: clamp(7px, 1.2vh, 13px);
+  background: linear-gradient(100deg, var(--sky-soft), var(--sky) 60%, var(--orange-hi));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.aid-banner__body {
+  font-size: clamp(0.82rem, 1.15vw, 1rem);
+  line-height: 1.5;
+  color: rgba(255,255,255,0.9);
+}
+
+/* =====================================================================
+   3. PAIRED-CIRCLE "DUO" UNITS
+   Two slightly-overlapping, diagonally-offset circles: a product photo
+   (top-left) and a glass title/text circle (bottom-right). No connecting
+   background panel behind the grid.
+   ===================================================================== */
+.duo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 3vw, 46px) clamp(14px, 2.4vw, 30px);
+  justify-items: center;
+}
+/* the 7th shoe sits centered on its own third row */
+.duo-grid--seven > .duo:nth-child(7) { grid-column: 2; }
+
+.duo {
+  position: relative;
+  width: clamp(258px, 27vw, 322px);
+  aspect-ratio: 1 / 1;
+}
+.duo__img,
+.duo__card {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+}
+/* product photo circle — top-left */
+.duo__img {
+  top: 0; left: 0;
+  width: 52%; height: 52%;
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 20px 44px -22px rgba(0,0,0,0.7);
+  background: #fff;
+  z-index: 1;
+}
+.duo__img img {
+  width: 100%; height: 100%;
+  object-fit: cover;             /* squared bubbles already contain the whole item */
+  transition: transform 0.7s var(--ease);
+}
+.duo:hover .duo__img img { transform: scale(1.05); }
+
+/* title + text circle — bottom-right, overlapping the photo slightly */
+.duo__card {
+  right: 0; bottom: 0;
+  width: 64%; height: 64%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 9% 12%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.055));
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 24px 54px -34px rgba(0,0,0,0.8);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  z-index: 2;
+  transition: border-color 0.55s var(--ease), transform 0.55s var(--ease);
+}
+.duo:hover .duo__card { transform: translateY(-3px); border-color: rgba(255,106,19,0.4); }
+
+.duo__title {
+  font-size: clamp(0.82rem, 1.15vw, 1.02rem);
+  font-weight: 800; letter-spacing: 0.01em;
+  line-height: 1.12;
+  margin-bottom: 0.4em;
+}
+.duo__text {
+  font-size: clamp(0.68rem, 0.92vw, 0.82rem);
+  line-height: 1.32;
+  color: rgba(255,255,255,0.9);
+}
+/* alternate the title accent for a calm orange/sky rhythm across the grid */
+.duo:nth-child(odd)  .duo__title { color: var(--orange-hi); }
+.duo:nth-child(even) .duo__title { color: var(--sky-soft); }
+
+/* =====================================================================
+   4. SLUNKS — near-full-screen linked logo + closing copy
+   ===================================================================== */
+.slunks-section { max-width: 1200px; margin-top: clamp(60px, 11vh, 130px); }
+.slunks-logo {
+  display: block;
+  width: min(92vw, 1000px);
+  margin: 0 auto clamp(28px, 5vh, 54px);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 40px 100px -50px rgba(0,0,0,0.85);
+  position: relative;
+  transition: transform 0.6s var(--ease), border-color 0.6s var(--ease), box-shadow 0.6s var(--ease);
+}
+.slunks-logo img { width: 100%; height: auto; display: block; }
+.slunks-logo::after {          /* ↗ affordance so it reads as clickable */
+  content: "↗";
+  position: absolute; top: 14px; right: 18px;
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  font-size: 1.1rem; font-weight: 700; color: #fff;
+  background: rgba(255,106,19,0.9);
+  box-shadow: 0 12px 30px -12px rgba(255,106,19,0.7);
+  opacity: 0; transform: translateY(-4px) scale(0.9);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.slunks-logo:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,106,19,0.5);
+  box-shadow: 0 50px 120px -46px rgba(255,106,19,0.4);
+}
+.slunks-logo:hover::after { opacity: 1; transform: translateY(0) scale(1); }
+.slunks-logo:focus-visible { outline: 2px solid var(--sky); outline-offset: 4px; }
+.slunks-copy { margin-top: 0; }
+
+/* =====================================================================
+   RESPONSIVE
+   ===================================================================== */
+@media (max-width: 820px) {
+  .duo-grid { grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 4vw, 34px); }
+  .duo-grid--seven > .duo:nth-child(7) { grid-column: auto; }  /* let it flow naturally */
+  .duo { width: clamp(240px, 42vw, 300px); }
+}
+@media (max-width: 560px) {
+  body.shoes .lesson-hero { min-height: 46svh; }
+  .duo-grid { grid-template-columns: 1fr; justify-items: center; }
+  .duo { width: min(88vw, 320px); }
+  /* the wide plus gets too short at phone widths → let it grow to fit the copy */
+  .aid-banner { aspect-ratio: auto; min-height: 340px; padding: 30px 6px; }
+  .aid-banner__title { font-size: 1.5rem; }
+}

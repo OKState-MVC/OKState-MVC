@@ -1,0 +1,312 @@
+/* =====================================================================
+   HITTING, SETTING, & RECEIVING — lesson sub-page styles
+   Loaded AFTER styles.css: inherits all design tokens, the .reveal scroll
+   system, the footer, and the toast. This file only:
+     1. swaps the global fixed team-photo backdrop for a soothing grey,
+     2. adds the calmer, more-translucent lesson graphics,
+     3. styles the three vertical skill cards + their YouTube thumbnails.
+   Aesthetic: same Apple-clean motion language as the home page, but softer
+   and more inviting — this page is here to teach, not to impress.
+   ===================================================================== */
+
+/* ---------- Swap the global backdrop for a welcoming grey ----------
+   styles.css pins the team photo to the viewport for the whole site. On a
+   teaching page we want a calm, soothing grey instead — not pure black. */
+body.lesson::before {
+  background:
+    radial-gradient(120% 90% at 12% 8%,  rgba(255,138,61,0.11), transparent 48%),
+    radial-gradient(120% 95% at 88% 92%, rgba(95,195,232,0.14), transparent 50%),
+    linear-gradient(165deg, #4a4d55 0%, #3d3f47 48%, #45474f 100%);
+}
+body.lesson::after {
+  background:
+    radial-gradient(150% 110% at 50% 24%, transparent 60%, rgba(18,18,22,0.30) 100%);
+}
+
+/* soft, slow-drifting ambient shapes — the "shapes and hues" of the page */
+.lesson-ambient { position: fixed; inset: 0; z-index: -8; pointer-events: none; overflow: hidden; }
+.lesson-ambient span {
+  position: absolute; border-radius: 50%; filter: blur(46px); opacity: 0.55;
+  animation: drift 26s ease-in-out infinite;
+}
+.lesson-ambient span:nth-child(1) {
+  width: 420px; height: 420px; top: -80px; left: -60px;
+  background: radial-gradient(circle at 40% 40%, rgba(255,106,19,0.22), transparent 70%);
+}
+.lesson-ambient span:nth-child(2) {
+  width: 480px; height: 480px; bottom: -120px; right: -80px;
+  background: radial-gradient(circle at 50% 50%, rgba(95,195,232,0.22), transparent 70%);
+  animation-delay: -13s;
+}
+.lesson-ambient span:nth-child(3) {
+  width: 340px; height: 340px; top: 46%; left: 60%;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06), transparent 70%);
+  animation-delay: -7s;
+}
+@keyframes drift {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(26px,-30px) scale(1.06); }
+}
+
+/* ---------- Breadcrumb pill (fixed, subtle) ----------
+   Was a single "back to home" link; now a breadcrumb — "← Crash Course › <this
+   page>". The home half is the link; the current crumb is inert. On phones the
+   crumb + separator collapse so only the back-link shows (see the 520px query). */
+.lesson-back {
+  position: fixed; top: 22px; left: 72px; z-index: 40;   /* left:72 clears the fixed social dock in the corner */
+  display: inline-flex; align-items: center; gap: 9px;
+  max-width: min(70vw, 440px);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 0.9rem; font-weight: 600; letter-spacing: 0.01em;
+  color: var(--white);
+  background: rgba(20,20,26,0.42);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  box-shadow: 0 14px 34px -20px rgba(0,0,0,0.8);
+  transition: background 0.5s var(--ease), border-color 0.5s var(--ease);
+}
+.lesson-back:hover { background: rgba(20,20,26,0.6); border-color: rgba(255,106,19,0.5); }
+.lesson-back__home {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--white); white-space: nowrap;
+  transition: color 0.4s var(--ease);
+}
+.lesson-back__home:hover { color: var(--orange-hi); }
+.lesson-back__arrow { display: inline-block; transition: transform 0.5s var(--ease); }
+.lesson-back__home:hover .lesson-back__arrow { transform: translateX(-4px); }
+.lesson-back__home:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; border-radius: 8px; }
+.lesson-back__sep { flex: 0 0 auto; color: var(--grey-dim); }
+.lesson-back__current {
+  color: var(--grey); font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ---------- Chapter pager (prev / next through the crash course) ----------
+   Sits just below a page's content, above the footer. Lets a reader walk the
+   course like chapters instead of returning home between every section. */
+.lesson-pager {
+  max-width: 1120px;
+  margin: clamp(34px, 7vh, 84px) auto 0;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(12px, 1.6vw, 20px);
+}
+.lesson-pager__link {
+  display: flex; flex-direction: column; gap: 7px;
+  padding: clamp(18px, 2.4vw, 26px) clamp(20px, 2.6vw, 30px);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.045));
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 20px 50px -40px rgba(0,0,0,0.7);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  transition: transform 0.5s var(--ease), border-color 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+.lesson-pager__link--next { text-align: right; align-items: flex-end; }
+.lesson-pager__link:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,106,19,0.5);
+  box-shadow: 0 30px 60px -34px rgba(255,106,19,0.4);
+}
+.lesson-pager__link:active { transform: translateY(-1px) scale(0.996); }
+.lesson-pager__dir {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--orange-hi);
+}
+.lesson-pager__chev { display: inline-block; transition: transform 0.5s var(--ease); }
+.lesson-pager__link--prev:hover .lesson-pager__chev { transform: translateX(-5px); }
+.lesson-pager__link--next:hover .lesson-pager__chev { transform: translateX(5px); }
+.lesson-pager__meta { display: flex; align-items: baseline; gap: 10px; }
+.lesson-pager__link--next .lesson-pager__meta { flex-direction: row-reverse; }
+.lesson-pager__num { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; color: var(--sky-soft); }
+.lesson-pager__name {
+  font-size: clamp(1.05rem, 2vw, 1.4rem); font-weight: 750; letter-spacing: -0.01em;
+  color: var(--white); line-height: 1.14;
+}
+@media (max-width: 620px) {
+  .lesson-pager { grid-template-columns: 1fr; }
+  .lesson-pager__link--next { text-align: left; align-items: flex-start; }
+  .lesson-pager__link--next .lesson-pager__meta { flex-direction: row; }
+}
+
+/* ---------- Hero title graphic ----------
+   Top is blank on load, then this plate fades in on its own (small delay). */
+.lesson-hero {
+  min-height: 76svh;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+  padding: 16vh 24px 6vh;
+}
+.lesson-title-graphic {
+  position: relative;
+  padding: clamp(30px, 5vw, 58px) clamp(28px, 6vw, 76px);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.045));
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 30px 90px -44px rgba(0,0,0,0.8);
+  backdrop-filter: blur(16px) saturate(125%);
+  -webkit-backdrop-filter: blur(16px) saturate(125%);
+  overflow: hidden;
+  transition-delay: 0.22s;           /* the "blank, then fades in" beat */
+}
+.lesson-title-graphic::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(90% 130% at 100% 0%, rgba(255,106,19,0.16), transparent 55%),
+              radial-gradient(80% 100% at 0% 100%, rgba(95,195,232,0.14), transparent 55%);
+}
+.lesson-hero__eyebrow {
+  position: relative;
+  text-transform: uppercase; letter-spacing: 0.32em;
+  font-size: clamp(10px, 1.4vw, 13px); font-weight: 600;
+  color: var(--sky-soft); margin-bottom: 18px;
+}
+.lesson-title {
+  position: relative;
+  font-size: clamp(2rem, 6.6vw, 4.6rem);
+  line-height: 0.99; font-weight: 800; letter-spacing: -0.02em;
+  text-shadow: 0 6px 40px rgba(0,0,0,0.35);
+}
+.lesson-title__accent {
+  background: linear-gradient(100deg, var(--orange-hi), var(--orange) 55%, var(--orange-deep));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* ---------- Intro copy ---------- */
+.lesson-intro { padding-top: clamp(20px, 4vh, 50px); }
+
+.lesson-card {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(26px, 4vw, 48px) clamp(26px, 5vw, 60px);
+  border-radius: var(--radius-xl);
+  /* calmer + more transparent than the home page's solid panels */
+  background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 26px 70px -46px rgba(0,0,0,0.7);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+}
+/* the three grouped paragraphs sit tightly together */
+.lesson-card + .lesson-card { margin-top: clamp(14px, 1.8vh, 20px); }
+
+/* the wider closing card sits a little farther from the grouped trio */
+.lesson-card--wide { max-width: 1080px; }
+.lesson-card + .lesson-card--wide { margin-top: clamp(38px, 5.5vh, 64px); }
+
+.lesson-card__body {
+  font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+  line-height: 1.72;
+  color: rgba(255,255,255,0.92);
+}
+.lesson-card__body em { color: var(--orange-hi); font-style: normal; font-weight: 700; }
+.lesson-card__body strong { color: var(--white); font-weight: 700; }
+
+/* position words — colored to match their video cards below (hitter/setter/receiving) */
+.lesson-card__body strong.pos-hit { color: var(--orange-hi); }
+.lesson-card__body strong.pos-set { color: var(--sky-soft); }
+.lesson-card__body strong.pos-lib {
+  background: linear-gradient(100deg, var(--orange-hi), var(--sky-soft));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* ---------- The three vertical skill cards ---------- */
+.lesson-videos { max-width: 1120px; }
+.lesson-videos__head { text-align: center; margin-bottom: clamp(30px, 5vh, 54px); }
+
+.skill-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 1.8vw, 24px);
+}
+
+.skill-card {
+  position: relative;
+  display: flex; flex-direction: column;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 26px 60px -40px rgba(0,0,0,0.75);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  transition: transform 0.55s var(--ease), border-color 0.55s var(--ease), box-shadow 0.55s var(--ease);
+}
+.skill-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,106,19,0.5);
+  box-shadow: 0 34px 70px -34px rgba(255,106,19,0.4);
+}
+.skill-card:active { transform: translateY(-2px) scale(0.995); }
+
+.skill-card__title {
+  padding: clamp(20px, 2.4vw, 30px) 20px clamp(16px, 2vw, 22px);
+  text-align: center;
+  font-size: clamp(1.15rem, 2vw, 1.6rem);
+  font-weight: 800; letter-spacing: 0.02em;
+}
+.skill-card:nth-child(1) .skill-card__title { color: var(--orange-hi); }
+.skill-card:nth-child(2) .skill-card__title { color: var(--sky-soft); }
+.skill-card:nth-child(3) .skill-card__title {
+  background: linear-gradient(100deg, var(--orange-hi), var(--sky-soft));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* the thumbnail: image only, cropped to fit; the whole card is the link */
+.skill-card__thumb {
+  position: relative;
+  aspect-ratio: 4 / 5;               /* keeps each card a tall vertical rectangle */
+  overflow: hidden;
+  margin: 0 clamp(10px, 1.4vw, 16px) clamp(12px, 1.6vw, 18px);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.skill-card__thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;                 /* crop the 16:9 thumb into the tall frame */
+  transform: scale(1.02);
+  transition: transform 0.8s var(--ease), filter 0.6s var(--ease);
+  filter: saturate(1.02) contrast(1.02);
+}
+.skill-card:hover .skill-card__thumb img { transform: scale(1.07); }
+
+.skill-card__thumb::after {         /* soft bottom scrim for the hint text */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, rgba(8,8,12,0.55));
+}
+.skill-card__play {
+  position: absolute; top: 50%; left: 50%;
+  width: clamp(52px, 6vw, 68px); height: clamp(52px, 6vw, 68px);
+  transform: translate(-50%, -50%) scale(0.9);
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: rgba(255,106,19,0.92);
+  box-shadow: 0 14px 34px -12px rgba(255,106,19,0.7);
+  color: #fff; z-index: 2;
+  opacity: 0.92;
+  transition: transform 0.5s var(--ease), opacity 0.5s var(--ease), background 0.5s var(--ease);
+}
+.skill-card__play svg { width: 42%; height: 42%; margin-left: 3px; }
+.skill-card:hover .skill-card__play { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
+
+.skill-card__hint {
+  position: absolute; left: 0; right: 0; bottom: 14px;
+  text-align: center; z-index: 2;
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.86);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .skill-row { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; gap: 22px; }
+  .skill-card__thumb { aspect-ratio: 16 / 10; }
+  .lesson-hero { min-height: 66svh; }
+}
+@media (max-width: 520px) {
+  .lesson-back { top: 14px; left: 56px; padding: 9px 15px; font-size: 0.84rem; max-width: min(68vw, 280px); }
+  .lesson-back__sep, .lesson-back__current { display: none; }   /* phone: just the back-link, right of the dock */
+}

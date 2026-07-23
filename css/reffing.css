@@ -1,0 +1,104 @@
+/* =====================================================================
+   REFFING — sub-page styles
+   Loaded AFTER styles.css + lesson.css. The page uses <body class="lesson
+   reffing">, so it inherits the whole soothing-grey theme (backdrop, ambient
+   shapes, back-pill, title graphic, translucent cards). This file only:
+     1. pulls the intro copy up "very near" the REFFING title,
+     2. lays out the 2-col × 3-row gallery of reference-photo cards.
+   ===================================================================== */
+
+/* the body paragraph should sit close under the title, not a full hero away */
+body.reffing .lesson-hero { min-height: 44svh; padding: 14vh 24px 2vh; }
+.reffing-intro { padding-top: clamp(14px, 2.5vh, 30px); }
+
+/* ---------- Gallery: 3 rows of 2 ---------- */
+.reffing-gallery { max-width: 960px; }
+.reffing-gallery__head { text-align: center; margin-bottom: clamp(28px, 5vh, 50px); }
+
+.ref-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(16px, 2.2vw, 26px);
+}
+
+.ref-card {
+  position: relative;
+  display: flex; flex-direction: column;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  /* same calm, translucent glass as the H/S/R skill cards */
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 26px 60px -40px rgba(0,0,0,0.75);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  transition: transform 0.55s var(--ease), border-color 0.55s var(--ease), box-shadow 0.55s var(--ease);
+}
+/* only the linked cards react to hover */
+a.ref-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,106,19,0.5);
+  box-shadow: 0 34px 70px -34px rgba(255,106,19,0.4);
+}
+a.ref-card:active { transform: translateY(-2px) scale(0.995); }
+a.ref-card:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; }
+
+.ref-card__title {
+  padding: clamp(18px, 2.2vw, 26px) 18px clamp(14px, 1.6vw, 18px);
+  text-align: center;
+  font-size: clamp(1.05rem, 1.7vw, 1.4rem);
+  font-weight: 800; letter-spacing: 0.03em;
+}
+/* left column reads orange, right column reads sky — a calm rhythm across the grid */
+.ref-card:nth-child(odd)  .ref-card__title { color: var(--orange-hi); }
+.ref-card:nth-child(even) .ref-card__title { color: var(--sky-soft); }
+
+.ref-card__thumb {
+  position: relative;
+  aspect-ratio: 4 / 3;               /* landscape-ish frame suits the reference photos */
+  overflow: hidden;
+  margin: 0 clamp(10px, 1.4vw, 16px) clamp(12px, 1.6vw, 18px);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.ref-card__thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 0.8s var(--ease), filter 0.6s var(--ease);
+  filter: saturate(1.02) contrast(1.02);
+}
+a.ref-card:hover .ref-card__thumb img { transform: scale(1.07); }
+
+.ref-card__thumb::after {           /* soft bottom scrim for the hint text */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, rgba(8,8,12,0.55));
+}
+.ref-card__play {
+  position: absolute; top: 50%; left: 50%;
+  width: clamp(48px, 5vw, 62px); height: clamp(48px, 5vw, 62px);
+  transform: translate(-50%, -50%) scale(0.9);
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: rgba(255,106,19,0.92);
+  box-shadow: 0 14px 34px -12px rgba(255,106,19,0.7);
+  color: #fff; z-index: 2; opacity: 0.92;
+  transition: transform 0.5s var(--ease), opacity 0.5s var(--ease);
+}
+.ref-card__play svg { width: 42%; height: 42%; margin-left: 3px; }
+a.ref-card:hover .ref-card__play { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
+
+.ref-card__hint {
+  position: absolute; left: 0; right: 0; bottom: 12px; z-index: 2;
+  text-align: center;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.86);
+}
+
+/* scorekeeping: no video → static card, just the reference image (no play badge, no caption) */
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+  .ref-grid { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; gap: 20px; }
+  body.reffing .lesson-hero { min-height: 38svh; }
+}

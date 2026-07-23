@@ -1,0 +1,222 @@
+/* =====================================================================
+   WHAT WE EXPECT OF YOU — "Our Philosophy" sub-page styles
+   Loaded AFTER styles.css + lesson.css: inherits all design tokens, the
+   .reveal scroll system, and the fixed "← Back" pill from lesson.css.
+
+   This is the "sophisticated subtle difference" page — the same philosophy
+   that sets the home page's invite card apart, taken to a whole page:
+     1. a deeper, soothing CHARCOAL backdrop (darker than any other page),
+     2. a fixed field of gently animated GLASSY shapes the page scrolls over,
+     3. NO panels/cards — the title + body copy FLOAT directly on the shapes,
+     4. a more serious, engaging text system (read every character).
+   ===================================================================== */
+
+/* ---------- Deeper charcoal backdrop (darker than every other page) ----------
+   Still soothing, never pure black; faint orange/sky hues in the far corners. */
+body.philosophy::before {
+  background:
+    radial-gradient(120% 90% at 14% 6%,  rgba(255,138,61,0.07), transparent 46%),
+    radial-gradient(120% 95% at 86% 94%, rgba(95,195,232,0.09), transparent 50%),
+    linear-gradient(168deg, #141519 0%, #0d0e12 52%, #121318 100%);
+}
+/* a deeper vignette — frames the floating text and lends the page gravitas */
+body.philosophy::after {
+  background:
+    radial-gradient(140% 115% at 50% 30%, transparent 42%, rgba(4,4,7,0.58) 100%);
+}
+
+/* =====================================================================
+   The fixed glassy shape field — stationary; the page scrolls over it.
+   A variety of circles + polygons, translucent Apple-glass fills with faint
+   orange/sky/white hues, drifting and slowly rotating. Per-shape motion is
+   driven by CSS custom props (--dx/--dy/--r/--dr) read by one keyframe.
+   ===================================================================== */
+.phil-shapes {
+  position: fixed; inset: 0; z-index: -8;
+  pointer-events: none; overflow: hidden;
+}
+.phil-shapes span {
+  position: absolute;
+  /* clear glass bubble: mostly transparent, a soft top-left specular sheen
+     fading to near-nothing, and real refraction of whatever sits behind it */
+  background:
+    radial-gradient(118% 118% at 30% 26%,
+      rgba(255,255,255,0.14),
+      rgba(255,255,255,0.035) 40%,
+      rgba(255,255,255,0.008) 74%);
+  border: 0;
+  backdrop-filter: blur(10px) saturate(116%);
+  -webkit-backdrop-filter: blur(10px) saturate(116%);
+  box-shadow:
+    inset 0 1px 14px rgba(255,255,255,0.10),   /* inner sheen */
+    inset 0 0 0 1px rgba(255,255,255,0.05),    /* faint glass rim */
+    0 48px 90px -48px rgba(0,0,0,0.8);         /* deep grounding shadow = weight */
+  opacity: 0.88;
+  will-change: transform;
+  animation: phil-float var(--dur, 44s) var(--ease-soft) infinite;
+  animation-delay: var(--delay, 0s);
+}
+/* the large "looming" forms carry more presence — a touch more sheen + weight */
+.phil-shapes span.ph-big {
+  box-shadow:
+    inset 0 2px 24px rgba(255,255,255,0.11),
+    inset 0 0 0 1px rgba(255,255,255,0.06),
+    0 70px 130px -54px rgba(0,0,0,0.85);
+}
+@keyframes phil-float {
+  0%,100% { transform: translate(0,0) rotate(var(--r, 0deg)) scale(1); }
+  50%     { transform: translate(var(--dx, 18px), var(--dy, -22px))
+                        rotate(calc(var(--r, 0deg) + var(--dr, 12deg))) scale(1.035); }
+}
+
+/* ---- Shape geometry (selectors scoped so they beat the base rule) ---- */
+.ph-circle  { border-radius: 50%; border: 1px solid rgba(255,255,255,0.14); }
+.ph-tri     { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+.ph-diamond { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+.ph-hex     { clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+.ph-pent    { clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); }
+.ph-blade   { clip-path: polygon(0% 24%, 100% 0%, 82% 100%, 12% 84%); }
+/* clipped shapes can't show a border-box edge — a soft drop-shadow hints one */
+.phil-shapes span:not(.ph-circle):not(.ph-glow) {
+  filter: drop-shadow(0 0 1px rgba(255,255,255,0.22));
+}
+
+/* ---- Ever-so-slight hue: the same clear bubble, with just a breath of color ---- */
+.phil-shapes span.ph-orange {
+  background:
+    radial-gradient(118% 118% at 30% 26%, rgba(255,255,255,0.13), rgba(255,255,255,0.02) 42%, transparent 74%),
+    radial-gradient(120% 120% at 62% 72%, rgba(255,140,60,0.10), transparent 66%);
+}
+.phil-shapes span.ph-sky {
+  background:
+    radial-gradient(118% 118% at 30% 26%, rgba(255,255,255,0.13), rgba(255,255,255,0.02) 42%, transparent 74%),
+    radial-gradient(120% 120% at 62% 72%, rgba(120,205,240,0.10), transparent 66%);
+}
+
+/* ---- Two large, very soft hue blobs for depth (heavily blurred) ---- */
+.phil-shapes span.ph-glow {
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  box-shadow: none; filter: blur(60px); opacity: 0.5;
+}
+
+/* ---- The individual shapes: position / size / motion variety ----
+   Spread across the viewport; each gets its own drift vector + timing. */
+/* A deliberate range of scale — a few large forms LOOM in from the edges to
+   give the field presence/gravitas, medium + small shapes carry the depth. */
+.phil-shapes span:nth-child(1)  { top: -2%; left: -5%;  width: 330px; height: 330px; --dx: 20px; --dy: 22px; --r: -6deg;  --dr: 10deg; --dur: 54s; --delay: -6s; }
+.phil-shapes span:nth-child(2)  { top: 9%;  left: 75%;  width: 208px; height: 208px; --dx: -22px;--dy: 18px; --r: 12deg;  --dr: -14deg;--dur: 46s; --delay: -19s; }
+.phil-shapes span:nth-child(3)  { top: 31%; left: 43%;  width: 126px; height: 126px; --dx: 16px; --dy: -20px;--r: 0deg;   --dr: 20deg; --dur: 40s; --delay: -9s; }
+.phil-shapes span:nth-child(4)  { top: 52%; left: -6%;  width: 280px; height: 280px; --dx: 18px; --dy: -16px;--r: 14deg;  --dr: -10deg;--dur: 58s; --delay: -27s; }
+.phil-shapes span:nth-child(5)  { top: 63%; left: 80%;  width: 166px; height: 166px; --dx: -18px;--dy: -22px;--r: -12deg; --dr: 16deg; --dur: 48s; --delay: -3s; }
+.phil-shapes span:nth-child(6)  { top: 44%; left: 64%;  width: 106px; height: 106px; --dx: 16px; --dy: 22px; --r: 6deg;   --dr: -22deg;--dur: 38s; --delay: -14s; }
+.phil-shapes span:nth-child(7)  { top: 80%; left: 42%;  width: 244px; height: 244px; --dx: -16px;--dy: -18px;--r: 8deg;   --dr: 14deg; --dur: 56s; --delay: -21s; }
+.phil-shapes span:nth-child(8)  { top: 22%; left: 24%;  width: 90px;  height: 90px;  --dx: 20px; --dy: 20px; --r: -6deg;  --dr: -18deg;--dur: 36s; --delay: -8s; }
+.phil-shapes span:nth-child(9)  { top: 74%; left: 23%;  width: 138px; height: 138px; --dx: -16px;--dy: 22px; --r: 14deg;  --dr: 18deg; --dur: 44s; --delay: -30s; }
+.phil-shapes span:nth-child(10) { top: 38%; left: 88%;  width: 92px;  height: 92px;  --dx: -20px;--dy: -16px;--r: 0deg;   --dr: -24deg;--dur: 34s; --delay: -12s; }
+.phil-shapes span:nth-child(11) { top: -8%; left: 52%;  width: 300px; height: 300px; --dx: 14px; --dy: 22px; --r: -8deg;  --dr: 10deg; --dur: 60s; --delay: -33s; }
+.phil-shapes span:nth-child(12) { top: 88%; left: 70%;  width: 112px; height: 112px; --dx: 18px; --dy: -18px;--r: 8deg;   --dr: -18deg;--dur: 40s; --delay: -5s; }
+
+/* the two soft depth glows (last two spans) */
+.phil-shapes span.ph-glow:nth-child(13) { top: 12%; left: -10%; width: 560px; height: 560px; background: radial-gradient(circle at 45% 45%, rgba(255,106,19,0.20), transparent 68%); --dx: 24px; --dy: 16px; --dur: 62s; --delay: -11s; }
+.phil-shapes span.ph-glow:nth-child(14) { bottom: -12%; right: -10%; width: 640px; height: 640px; top: auto; left: auto; background: radial-gradient(circle at 50% 50%, rgba(95,195,232,0.20), transparent 70%); --dx: -22px; --dy: -18px; --dur: 68s; --delay: -25s; }
+
+/* =====================================================================
+   Floating content — NO cards. Title + body sit directly on the shapes.
+   ===================================================================== */
+.phil-wrap {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 clamp(22px, 5vw, 40px);
+  text-align: center;
+}
+
+/* ---- Hero: floating "Our Philosophy" title (no plate) ---- */
+.phil-hero {
+  min-height: 82svh;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+  padding: 18vh 24px 8vh;
+}
+.phil-title {
+  position: relative;
+  font-size: clamp(2.4rem, 8vw, 5.4rem);
+  font-weight: 800; letter-spacing: -0.025em; line-height: 0.98;
+  color: #ffffff;
+  /* soft luminous glow — serious, but never loud */
+  text-shadow:
+    0 0 46px rgba(255,255,255,0.20),
+    0 2px 4px rgba(0,0,0,0.35),
+    0 18px 60px rgba(0,0,0,0.55);
+  transition-delay: 0.24s;              /* the "blank, then fades in" beat */
+}
+.phil-title__eyebrow {
+  display: block;
+  text-transform: uppercase; letter-spacing: 0.42em;
+  font-size: clamp(10px, 1.4vw, 12px); font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: clamp(18px, 3vh, 26px);
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+
+/* ---- Body: floating serious copy, read-every-character ---- */
+.phil-body {
+  padding-bottom: clamp(40px, 8vh, 90px);
+}
+.phil-body p {
+  font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+  line-height: 1.66;
+  font-weight: 500;
+  letter-spacing: -0.006em;
+  color: rgba(255,255,255,0.9);
+  /* legibility over the moving shapes — a soft halo, not a card */
+  text-shadow: 0 2px 3px rgba(0,0,0,0.45), 0 10px 40px rgba(0,0,0,0.5);
+}
+/* each paragraph sits a little below the previous — the "breaks" in the copy */
+.phil-body p + p { margin-top: clamp(40px, 7vh, 88px); }
+
+/* the one word the reader must not miss */
+.phil-em {
+  font-style: normal; font-weight: 800;
+  color: var(--orange-hi);
+  text-shadow: 0 0 26px rgba(255,138,61,0.5), 0 2px 3px rgba(0,0,0,0.4);
+}
+
+/* ---- The grand finale — same treatment as the hero title, larger & grander ---- */
+.phil-finale {
+  min-height: 74svh;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+  padding: 6vh 24px 16vh;
+}
+.phil-finale__line {
+  position: relative;
+  font-size: clamp(2.7rem, 9vw, 6.4rem);
+  font-weight: 800; letter-spacing: -0.03em; line-height: 0.98;
+  color: #ffffff;
+  max-width: 15ch;
+  text-shadow:
+    0 0 60px rgba(255,255,255,0.24),
+    0 3px 5px rgba(0,0,0,0.4),
+    0 22px 74px rgba(0,0,0,0.6);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .phil-hero { min-height: 72svh; }
+  .phil-finale { min-height: 64svh; }
+}
+@media (max-width: 640px) {
+  /* keep the looming forms present but stop them swallowing a narrow screen */
+  .phil-shapes span.ph-big { width: 200px; height: 200px; }
+  .phil-shapes span:nth-child(1)  { width: 210px; height: 210px; }
+  .phil-shapes span:nth-child(11) { width: 190px; height: 190px; }
+}
+@media (max-width: 520px) {
+  .phil-shapes span { opacity: 0.62; }     /* calmer behind text on small screens */
+}
+
+/* honor reduced motion — freeze the shape field */
+@media (prefers-reduced-motion: reduce) {
+  .phil-shapes span { animation: none !important; }
+}
