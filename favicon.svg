@@ -1,15 +1,109 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Volleyball">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
   <defs>
-    <radialGradient id="vbfill" cx="38%" cy="30%" r="82%">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset="1" stop-color="#e2e7ed"/>
-    </radialGradient>
+    <clipPath id="clipBall">
+      <circle cx="600" cy="600" r="520"/>
+    </clipPath>
+    <style>
+      .seam { stroke:#cfcfcf; stroke-width:6; stroke-linecap:round; stroke-linejoin:round; }
+    </style>
   </defs>
-  <circle cx="32" cy="32" r="29" fill="url(#vbfill)"/>
-  <g fill="none" stroke="#ff6a13" stroke-width="3.4" stroke-linecap="round">
-    <path d="M32 4 C 24 20, 22 44, 30 60"/>
-    <path d="M5 21 C 24 30, 45 28, 59 18"/>
-    <path d="M9 47 C 25 39, 46 41, 58 51"/>
+
+  <g clip-path="url(#clipBall)">
+    <circle cx="600" cy="600" r="520" fill="#ffffff"/>
+
+    <!-- top green panel -->
+    <path class="seam" fill="#0a9f5c" d="
+      M 345 125
+      C 510 70, 735 82, 895 145
+      C 972 175, 1028 215, 1066 274
+      L 1015 352
+      C 856 318, 616 302, 390 316
+      L 330 300
+      C 330 238, 333 177, 345 125
+      Z"/>
+
+    <!-- top right red sliver -->
+    <path class="seam" fill="#ee1c25" d="
+      M 814 76
+      C 918 102, 1001 148, 1052 212
+      C 1033 223, 1006 237, 970 250
+      C 917 206, 864 147, 814 76
+      Z"/>
+
+    <!-- right side red sliver -->
+    <path class="seam" fill="#ee1c25" d="
+      M 1085 342
+      C 1160 378, 1212 435, 1235 514
+      C 1238 611, 1224 704, 1185 794
+      C 1174 686, 1154 598, 1126 514
+      C 1111 470, 1097 412, 1085 342
+      Z"/>
+
+    <!-- upper red panel -->
+    <path class="seam" fill="#ee1c25" d="
+      M 330 300
+      C 484 283, 706 297, 904 332
+      C 958 341, 995 349, 1015 352
+      C 983 439, 913 504, 782 530
+      C 579 571, 406 663, 300 838
+      C 235 793, 183 730, 149 655
+      C 112 575, 103 483, 128 403
+      C 158 356, 230 320, 330 300
+      Z"/>
+
+    <!-- central white S-shaped panel -->
+    <path class="seam" fill="#ffffff" d="
+      M 300 838
+      C 336 644, 455 524, 638 473
+      C 794 430, 925 415, 1015 352
+      C 1067 393, 1090 462, 1086 564
+      C 1082 681, 1034 784, 940 861
+      C 824 955, 640 1008, 444 1008
+      C 378 973, 328 918, 300 838
+      Z"/>
+
+    <!-- lower right green panel -->
+    <path class="seam" fill="#0a9f5c" d="
+      M 300 838
+      C 335 926, 397 985, 500 1002
+      C 666 1029, 834 982, 940 861
+      C 1020 770, 1058 688, 1072 582
+      C 1099 487, 1111 423, 1140 374
+      C 1168 445, 1182 521, 1180 616
+      C 1177 796, 1106 936, 976 1039
+      C 851 1137, 689 1181, 506 1174
+      C 416 1171, 349 1157, 300 1135
+      Z"/>
+
+    <!-- bottom red panel -->
+    <path class="seam" fill="#ee1c25" d="
+      M 300 1000
+      C 510 1002, 738 999, 979 980
+      L 996 1148
+      C 869 1210, 719 1238, 554 1235
+      C 453 1233, 365 1217, 294 1184
+      Z"/>
+
+    <!-- bottom left green sliver -->
+    <path class="seam" fill="#0a9f5c" d="
+      M 176 960
+      C 244 991, 291 1048, 330 1128
+      C 272 1106, 224 1078, 178 1037
+      C 149 1007, 135 982, 176 960
+      Z"/>
+
+    <!-- left outer dark seam accent -->
+    <path class="seam" fill="#0a9f5c" d="
+      M 74 480
+      C 97 398, 137 330, 195 270
+      C 154 373, 144 502, 151 648
+      C 156 754, 181 850, 227 938
+      C 176 924, 132 902, 92 871
+      C 61 786, 52 680, 56 575
+      C 58 541, 64 509, 74 480
+      Z"/>
   </g>
-  <circle cx="32" cy="32" r="29" fill="none" stroke="#0d0d10" stroke-width="1.8" opacity="0.22"/>
+
+  <circle cx="600" cy="600" r="520" fill="none" stroke="#cfcfcf" stroke-width="6"/>
 </svg>
